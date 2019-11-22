@@ -1,0 +1,59 @@
+version: "2"
+services:
+
+#    gateway:
+#            image: radap/gateway:1.0.2
+#            container_name: gateway
+#            ports: ["8888:8888"]
+#            volumes: ["${DOCKER_VOLUMES}"]
+#            networks: ['radapnx']
+#            restart: always
+#            environment:
+#                - APP_OPTIONS=
+#                    --server.port=8888  ${APP_OPTIONS}
+#                    --spring.cloud.etcd.discovery.hostname=${GATEWAY_HOST}
+#                    --zuul.host.socket-timeout-millis=60000
+#                    --zuul.host.connect-timeout-millis=60000
+#                    --zuul.retryable=true
+
+#    blog:
+#            image: ywm/blog:1.0.0
+#            container_name: blog
+#            networks: ['ywm']
+#            volumes: ["${DOCKER_VOLUMES}"]
+#            restart: always
+#            extra_hosts:
+#                datahub.cn-shanghai-shga-d01.dh.alicloud.ga.sh: 15.74.19.36
+#            environment:
+#                - JAVA_OPTIONS=-Xmx2g -Xms1g
+#                - APP_OPTIONS=${APP_OPTIONS}
+
+    oms:
+            image: docker.yhb/ywm/ywm-oms:1.0.0
+            container_name: ywm-oms
+            volumes: ["${DOCKER_VOLUMES}"]
+            networks: ['ywm']
+            restart: always
+            environment:
+                - JAVA_OPTIONS=-Xmx1024m -Xms512m
+                - APP_OPTIONS=${APP_OPTIONS}
+            ports: ["7788:7700"]
+
+#    portal:
+#            image: radap/portal:1.0.2
+#            container_name: portal
+#            networks: ['radapnx']
+#            volumes: ["${DOCKER_VOLUMES}"]
+#            restart: always
+#            environment:
+#                - JAVA_OPTIONS=-Xmx1024m -Xms512m
+#                - APP_OPTIONS=${APP_OPTIONS}
+#                    --wechat.push.test=false
+#                    --map.api.env=gaode
+#                    --host=${GATEWAY_HOST}
+#            ports: ["8840:8080"]
+
+
+networks:
+    ywm:
+        driver: ${DOCKER_DRIVER}
