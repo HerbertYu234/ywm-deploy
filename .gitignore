@@ -1,0 +1,17 @@
+*.iml
+target/
+*.class
+*.rpm
+*.jar
+*.tar.gz
+*.tgz
+*.pyc
+local.properties
+.idea/
+extension/
+assembler
+.svn/
+images.txt
+localhost.yaml
+.DS_Store
+
