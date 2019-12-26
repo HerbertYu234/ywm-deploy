@@ -16,17 +16,25 @@ services:
 #                    --zuul.host.connect-timeout-millis=60000
 #                    --zuul.retryable=true
 
-#    blog:
-#            image: ywm/blog:1.0.0
-#            container_name: blog
-#            networks: ['ywm']
-#            volumes: ["${DOCKER_VOLUMES}"]
-#            restart: always
-#            extra_hosts:
-#                datahub.cn-shanghai-shga-d01.dh.alicloud.ga.sh: 15.74.19.36
-#            environment:
-#                - JAVA_OPTIONS=-Xmx2g -Xms1g
-#                - APP_OPTIONS=${APP_OPTIONS}
+    sys:
+            image: docker.yhb/ywm/sys:1.0.0
+            container_name: sys
+            networks: ['ywm']
+            volumes: ["${DOCKER_VOLUMES}"]
+            restart: always
+            environment:
+                - JAVA_OPTIONS=-Xmx1024m -Xms512m
+                - APP_OPTIONS=${APP_OPTIONS}
+
+    blog:
+            image: docker.yhb/ywm/blog:1.0.0
+            container_name: blog
+            networks: ['ywm']
+            volumes: ["${DOCKER_VOLUMES}"]
+            restart: always
+            environment:
+                - JAVA_OPTIONS=-Xmx1024m -Xms512m
+                - APP_OPTIONS=${APP_OPTIONS}
 
     oms:
             image: docker.yhb/ywm/ywm-oms:1.0.0
@@ -38,6 +46,18 @@ services:
                 - JAVA_OPTIONS=-Xmx1024m -Xms512m
                 - APP_OPTIONS=${APP_OPTIONS}
             ports: ["7788:7700"]
+
+    front:
+            image: docker.yhb/ywm/ywm-front:1.0.0
+            container_name: ywm-front
+            volumes: ["${DOCKER_VOLUMES}"]
+            networks: ['ywm']
+            restart: always
+            environment:
+                - JAVA_OPTIONS=-Xmx1024m -Xms512m
+                - APP_OPTIONS=${APP_OPTIONS}
+            ports: ["7788:7701"]
+
 
 #    portal:
 #            image: radap/portal:1.0.2

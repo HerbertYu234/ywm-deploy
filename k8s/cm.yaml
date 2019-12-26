@@ -1,0 +1,11 @@
+# kubetpl:syntax:$
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  JAVA_OPTIONS: -Xmx1g -Xms256m
+  APP_OPTIONS: >
+    --spring.profiles.active=$profile
+    $APP_OPTIONS

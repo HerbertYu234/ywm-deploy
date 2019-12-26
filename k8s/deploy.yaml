@@ -1,0 +1,76 @@
+# kubetpl:syntax:$
+# kubetpl:set:replica=1
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: $name
+spec:
+  replicas: $replica
+  # 升级策略
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+  revisionHistoryLimit: 7 #只保留最近一周的迭代版本
+  selector:
+    matchLabels:
+      app: $name
+  template:
+    metadata:
+      labels:
+        app: $name
+    spec:
+      volumes:
+        - name: hostvol
+          hostPath:
+            path: $hostpath
+      containers:
+      - name: $name
+        image: docker.yhb/ywm/$name:${tag}
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 8080
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "2048Mi"
+#        livenessProbe:
+#          initialDelaySeconds: 300
+#          timeoutSeconds: 5
+#          periodSeconds: 10
+#          httpGet:
+#            path: /_spica/health
+#            port: 8080
+#        readinessProbe:
+#          httpGet:
+#            path: /_spica/ready
+#            port: 8080
+#          initialDelaySeconds: 30
+#          periodSeconds: 5
+#          failureThreshold: 30
+#          successThreshold: 1
+        volumeMounts:
+          - name: hostvol
+            mountPath: /ywm
+        envFrom:
+          - configMapRef:
+              name: configmap
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: $name
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  selector:
+    app: $name

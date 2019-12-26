@@ -1,0 +1,75 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gridiss
+  annotations:
+    kubernetes.io/ingress.allow-http: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header GRIDISS-DOMAIN $http_gridiss_domain;
+spec:
+  rules:
+    - host: oms.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: oms
+              servicePort: 80
+
+    - host: ads.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ads
+              servicePort: 80
+
+    - host: cxy.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ads
+              servicePort: 80
+
+    - host: api.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: api
+              servicePort: 80
+
+    - host: unit.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: unit
+              servicePort: 80
+
+    - host: 1400.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: unit
+              servicePort: 80
+
+    - host: subscribe.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: unit
+              servicePort: 80
+
+    - host: wechat.gridiss.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: wechat
+              servicePort: 80
