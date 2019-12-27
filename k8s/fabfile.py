@@ -6,7 +6,7 @@ import os
 
 from fabric.api import *
 
-profile = "GRIDISS_PROFILE" in os.environ and os.environ['GRIDISS_PROFILE'] or "dev"
+profile = "prod"
 print("当前部署环境:%s" % profile)
 
 
