@@ -1,24 +1,24 @@
 version: "2"
 services:
 
-#    gateway:
-#            image: radap/gateway:1.0.2
-#            container_name: gateway
-#            ports: ["8888:8888"]
-#            volumes: ["${DOCKER_VOLUMES}"]
-#            networks: ['radapnx']
-#            restart: always
-#            environment:
-#                - APP_OPTIONS=
-#                    --server.port=8888  ${APP_OPTIONS}
-#                    --spring.cloud.etcd.discovery.hostname=${GATEWAY_HOST}
-#                    --zuul.host.socket-timeout-millis=60000
-#                    --zuul.host.connect-timeout-millis=60000
-#                    --zuul.retryable=true
+    gateway:
+            image: docker.yhb/ywm/gateway:1.0.0
+            container_name: gateway
+            ports: ["9999:9999"]
+            volumes: ["${DOCKER_VOLUMES}"]
+            networks: ['radapnx']
+            restart: always
+            environment:
+                - APP_OPTIONS=
+                    --server.port=8888  ${APP_OPTIONS}
+                    --spring.cloud.etcd.discovery.hostname=${GATEWAY_HOST}
+                    --zuul.host.socket-timeout-millis=60000
+                    --zuul.host.connect-timeout-millis=60000
+                    --zuul.retryable=true
 
-    sys:
-            image: docker.yhb/ywm/sys:1.0.0
-            container_name: sys
+    user:
+            image: docker.yhb/ywm/user:1.0.0
+            container_name: user
             networks: ['ywm']
             volumes: ["${DOCKER_VOLUMES}"]
             restart: always
@@ -45,33 +45,19 @@ services:
             environment:
                 - JAVA_OPTIONS=-Xmx1024m -Xms512m
                 - APP_OPTIONS=${APP_OPTIONS}
-            ports: ["7788:7700"]
+            ports: ["9091:9091"]
 
-    front:
-            image: docker.yhb/ywm/ywm-front:1.0.0
-            container_name: ywm-front
+    portal:
+            image: docker.yhb/ywm/ywm-portal:1.0.0
+            container_name: ywm-portal
             volumes: ["${DOCKER_VOLUMES}"]
             networks: ['ywm']
             restart: always
             environment:
                 - JAVA_OPTIONS=-Xmx1024m -Xms512m
                 - APP_OPTIONS=${APP_OPTIONS}
-            ports: ["7788:7701"]
+            ports: ["9090:9090"]
 
-
-#    portal:
-#            image: radap/portal:1.0.2
-#            container_name: portal
-#            networks: ['radapnx']
-#            volumes: ["${DOCKER_VOLUMES}"]
-#            restart: always
-#            environment:
-#                - JAVA_OPTIONS=-Xmx1024m -Xms512m
-#                - APP_OPTIONS=${APP_OPTIONS}
-#                    --wechat.push.test=false
-#                    --map.api.env=gaode
-#                    --host=${GATEWAY_HOST}
-#            ports: ["8840:8080"]
 
 
 networks:
