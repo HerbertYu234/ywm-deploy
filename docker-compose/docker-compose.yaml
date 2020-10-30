@@ -6,11 +6,11 @@ services:
             container_name: gateway
             ports: ["9999:9999"]
             volumes: ["${DOCKER_VOLUMES}"]
-            networks: ['radapnx']
+            networks: ['ywm']
             restart: always
             environment:
                 - APP_OPTIONS=
-                    --server.port=8888  ${APP_OPTIONS}
+                    --server.port=9999  ${APP_OPTIONS}
                     --spring.cloud.etcd.discovery.hostname=${GATEWAY_HOST}
                     --zuul.host.socket-timeout-millis=60000
                     --zuul.host.connect-timeout-millis=60000
@@ -47,16 +47,16 @@ services:
                 - APP_OPTIONS=${APP_OPTIONS}
             ports: ["9091:9091"]
 
-    portal:
-            image: docker.yhb/ywm/ywm-portal:1.0.0
-            container_name: ywm-portal
-            volumes: ["${DOCKER_VOLUMES}"]
-            networks: ['ywm']
-            restart: always
-            environment:
-                - JAVA_OPTIONS=-Xmx1024m -Xms512m
-                - APP_OPTIONS=${APP_OPTIONS}
-            ports: ["9090:9090"]
+#    portal:
+#            image: docker.yhb/ywm/ywm-portal:1.0.0
+#            container_name: ywm-portal
+#            volumes: ["${DOCKER_VOLUMES}"]
+#            networks: ['ywm']
+#            restart: always
+#            environment:
+#                - JAVA_OPTIONS=-Xmx1024m -Xms512m
+#                - APP_OPTIONS=${APP_OPTIONS}
+#            ports: ["9090:9090"]
 
 
 
