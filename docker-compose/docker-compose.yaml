@@ -11,7 +11,6 @@ services:
             environment:
                 - APP_OPTIONS=
                     --server.port=9999  ${APP_OPTIONS}
-                    --spring.cloud.etcd.discovery.hostname=${GATEWAY_HOST}
                     --zuul.host.socket-timeout-millis=60000
                     --zuul.host.connect-timeout-millis=60000
                     --zuul.retryable=true
